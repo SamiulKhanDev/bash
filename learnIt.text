@@ -1,0 +1,578 @@
+shell is a program that takes input from the user and passes that to the os to perform.
+
+to know what type of shells that are supported in your system , use "cat /etc/shell" command
+
+sh - is the original shell
+bash - born again sh, currtently used as standard
+
+to create a shell script you don't need to append it with ".sh" , it just helps the editor to understand that it is a shell script, but without that also , the shell scripts with only "filename" works fine.
+
+the standard practice is write the she-bang or hash-bang(#!) systex of bash(or the type of shell you are using) as the first line
+"https://en.wikipedia.org/wiki/Shebang_(Unix)"
+
+#! which type of shell(name) should be used to interprete the file( shell scripts are interpreted, and this helps the interpreter to understand that it is a file that needs to be interpreted using bash shell )
+#! /bin/bash ->( bash shell will be used to interprete the file)
+....... write your code....
+
+echo "hello word" -> echo command is used to print what ever is in the double quotes
+
+now to execute your file just specify the file path in you command line,
+ex -> if i have a terminal opend in my current folder where my script is i will simply wirte "./filename" which is "./learnShell.sh".
+but there might a permission problem, as creating a file using "touch" or normally by "create new file" way give rw-(read write) permission to you, r--(read) permission to group and r--(read) permission to others, no execution permission,
+you can check is by running the "ls -al" command .
+
+learn more about permission from "https://users.ox.ac.uk/~martinw/unix/chap7.html#:~:text=The%20three%20characters%20corresponding%20to,of%20users%20has%20read%20permission."
+
+Now to give the execution permission use "chmod" command 
+"chmod +x filename"
++x will add execution permission
+
+"---------------------------------"
+Changing file permissions
+The command chmod is used to change the permissions on a file. The format of this command is:
+
+%  chmod  mode filename
+For example, to add read permission for the group to the file file1, give the command:
+
+% chmod g+r file1
+
+"---------------------------------"
+chmod modes
+In the command:
+
+% chmod mode filename
+the mode consists of three elements:
+
+who
+
+operator
+
+permissions
+
+"---------------------------------"
+
+The following options are possible:
+
+who:
+u user (owner)
+
+g group
+
+o other
+
+a all
+
+operators:
+- remove permission
+
++ add permission
+
+= assign permission
+
+permissions:
+r read
+
+w write
+
+x execute
+
+For example:
+
+chmod  o-rw  file1.f
+removes read and write permissions from others.
+
+chmod  u+x  test
+adds execute permission to the owner.
+
+"---------------------------------"
+
+
+Now after changing the permission you the "./filename" to run your shell script
+
+
+
+
+**1) Comments and variable in shell**
+
+->comments
+to add comment use "#" symbol,this comments will be ignored by the interpreter
+
+
+->varible
+container that holds data, data can be number , string etc
+
+in unix there are two types of variable
+i) system varible -> created and maintained by unix based system, defined in CAPITAL cases, so when ever you see a varible with capital case most likely they are system varible
+
+ii)user varible -> created and maintained by user , generally defined in lower cases, but you can write them is capital case as well
+
+be it System or user varible to make interpreter consider is as varible you have to prepend is with a "$" symble.Otherwise will be consider as string.
+
+echo $BASH ->BASH is a system varible. that gives the name of the shell.
+echo $PATH ->gives the path of the shell.
+
+
+to create user varible just give the varible a name, use assign operator and value
+
+ex name=samiul(there shouldn't be any space)
+to use it just do echo $name
+varible name should not start with number or symbols,
+and use quotation while refferencing varibales.
+"https://stackoverflow.com/questions/29378566/i-just-assigned-a-variable-but-echo-variable-shows-something-else" 
+
+**2) Read inputs from the terminal**
+to get input from the keyboard use "read" command
+
+
+read variableName
+
+input will be saved in the "varibalName"
+
+echo "#variableName" to print the input
+
+read name1 name2 name3 ....
+to take multiple name inputs 
+echo "$name1 $name2 $name3"
+
+you can use the "p" flag to enter the input in the same line
+
+read -p "user name " name
+echo "$name"
+
+to make the input silent, that is not vissible(usefull for passwords) use the 's' flag
+
+read -s password
+echo $password
+
+you also can combine flags together
+
+read -sp "input your password " password
+echo "$password"
+
+
+now if you want to store you multiple input in an array use "a" flag
+read -a names
+echo "${names[0]} ${names[1]} ${names[2]}}"
+
+
+now if you don't specify any varible name after "read" command , the input goes into a built in varible called "REPLY"
+
+read
+echo $REPLY
+
+
+
+**3) Pass argument to bash script(command line arguments)**
+
+
+Shell scripts just run commands as if they were executed in at the command prompt.
+But you also can run them as if they were a function ,That is, passing arguments into the script .
+Argument by default store in $n ,where n = number of the arg
+$0 is the command itself(like ./learnShell.sh)
+$1 is the first arg
+$2 is second arg
+.....
+
+pass thoes argument into an array then use them
+$@ is the default varible where all the args get stored, it's an array .
+
+echo $@ ->will give all the arguments
+if you want to parse them by there index
+args=("$@")
+
+echo "${args[0]} ${args[1]} ${args[2]}"
+
+note-> in case of default varible $0 is the the first argument(that is the command),
+but in case if you parse them into an aaray, the array[0] is the first arg that is not the command
+
+now if you want to print all arg at once, then you dont need to parse the array somply print echo "$@"
+
+now if you want to know the number of args you have passed use the default varible "#"
+echo "$#"
+
+
+
+
+
+**4)If else statement**
+
+basic skeleton for "if" statement
+
+if [ conditional expression ]
+then
+	"statement to run"
+fi "denotes the end of the if statement"
+
+some integer comparison operators are
+
+"-gt" = greater then
+"-ge" = greater then equal
+"-eq" = equal to
+"-ne" = not equal 
+"-lt" = less then
+"-le" = less then equal
+
+some string comparison operators are
+
+== or = -> equal to
+!= -> not equal to
+> -> lexicographycally greater then [["$q" > "$b"]]
+< -> lexicographycally smaller then [["$q" < "$b"]]
+-z -> if string length is zero [[ -n $name ]] or [ -n "$name" ] or [ ! "$name" ]
+-n -> if string length is not zero [[ -z $name ]] or [ -z "$name" ] or [ "$name" ]
+
+
+now the skeleton for if else if
+
+if [conditional expression]
+then 
+	statement
+else 
+	statement
+fi
+
+you can make a ladder by using if elfi 
+
+if [condition]
+then
+	statement
+elif [condtion]
+then 
+	statement
+elif ...
+...
+...
+else
+	you can add this else ,if you want.
+
+
+
+**5)file test operator**
+
+to check if a file exits of not or what kind of file it is
+
+lets say if a file exits or not use the 'e' flag if [ -e "filename" ]
+if you want to know if it's a file or not if [ -f "filename" ]
+if you want to know if it's a directory or not if [ -d "filename" ]
+
+charater special files are normal files, block files are pictures,videos etc
+
+to identify block special file use 'b' flag and for char special file use 'c'
+to check wheater a file is empty or not use 's' flag
+
+to check if your file has read permission ,write permission , execute permission use
+'r' , 'w','x' flags respectively
+
+
+
+**6)logical operator**
+
+1)and opeartor
+
+if [ con1 ] && [ con2 ]
+then 
+	statement
+fi
+
+the statement will only run if con1 and con2 both evalutes to true
+you also can use 'a' flag
+
+
+if [ con1 -a con2 ]
+then 
+	statement
+fi
+
+you can also use double squre brakets
+
+
+if [[ con1 && con2 ]]
+then 
+	statement
+fi
+
+
+2)or operator
+
+if [ con1 ] || [ con2 ]
+then 
+	statement
+fi
+
+the statement will only run if any one of con1,con2 evalutes to true
+you also can use 'o' flag
+
+
+if [ con1 -o con2 ]
+then 
+	statement
+fi
+
+you can also use double squre brakets
+
+
+if [[ con1 || con2 ]]
+then 
+	statement
+fi
+
+
+**7)arithmetic opearation**
+
+num1=10
+num2=20
+
+num3=$(( num1 + num2 )) #you can do minus ,multiply,divide,mod
+
+
+echo $num3
+
+
+either you can add thoes double braces or use the expr keyword
+
+
+num1=10
+num2=20
+
+num3=$(expr num1 + num2 ) #you can do minus ,multiply,divide,mod
+echo $num3
+
+but while using "expr" asterix is not escaped,we need to escape it using backslash ans
+it only works with integer values not decimal
+
+
+**8)arithmetic opearation on decimal values**
+
+opearation(way of doing them) that we did with normal integer values are not supported with decimal values
+
+
+we need to use a speical tool called "bc" which is basic calculator,that come inbuild with unix systems
+
+cmd1 | cmd2 
+this evalutes as cmd1 acts as an input for cmd2
+
+try 
+echo "20.6+9" | bc
+echo "20.6/9" | bc
+echo "20.6-9" | bc
+echo "20.6%9" | bc
+
+so "20.6+9" this acts as a input to bc cmd, and whatever is the output gets printed by echo cmd
+
+
+division on decimal will simply lead to integer outpur until you specify how many places of decimal value you want, you can do this using the "scale=decimal place" 
+
+echo "scale=3;20.6/9" | bc
+it will result in giving an output 3 decimal places
+
+
+now to do it with varibles just use the varible
+echo "$num1+$num2" | bc
+
+to calculet sqrt do
+
+echo "scale=2;sqrt(20)" | bc
+
+to calculate power use
+echo "5^3" | bc
+
+**9)case statement similer to switch**
+
+case expression in
+	pattern1 )
+		statement1 ;;
+	pattern2 )
+		statement2 ;;
+	...
+
+esac
+
+to give default pattern use asterix (which is conder as wild card in unix) and "?" is matches only with only one char "https://www.ibm.com/docs/en/zos/2.3.0?topic=processed-unix-wildcard-characters"
+
+car=bus
+case $car in
+	"car" )
+		echo "car" ;;
+	"bike" )
+		echo "bike" ;;
+	* )
+	echo "none"
+esac
+
+
+**8)Arrays varibles**
+
+bash supports one d array
+
+arr=("simd" "ignition" )
+so now arr is array that has two values in it "simd" and "ignition"
+
+echo "${arr[0]}" "${arr[1]}"
+to print the entire array at onces
+echo "${arr[@]}"
+to print the indices of the  array at onces
+echo "${!arr[@]}"
+to know the length of the array
+echo "${#arr[@]}"
+
+to add value at a index of array
+arr[3]=mac
+if i do arr[10]=g
+then in the 10th index g will be added but the index inbetween will remian empty but the size still will be number of elements in the array
+
+to remove element from array use "unset"
+unset arr[index]
+
+you can also do array operatin in varibles as well in bash
+
+name=samiul
+
+if you do array operation on name , you will find that "samiul" is in index 0 
+echo "${name[0]}"
+echo "${name[1]}" #empry
+
+
+**9)While loops**
+
+while [ con ]
+do
+	s1
+	s2
+	s3
+	...
+	...
+done
+
+till the "con" evalutes to true all statemets insdie do and done executes
+
+i=1
+while [ "$i" -lt 100 ]
+do
+	echo "$i"
+	i=$( expr "$i" + 1 ) or (( ++i )) or (( i++ ))
+done
+
+i=1
+while [ "$i" -lt 100 ] && [ $(( $i * 2  )) -lt 100 ]
+do
+	echo "$i"
+	i=$( expr "$i" + 1 )
+done
+
+
+**8)using sleep**
+sleep time = will stop the execution for time ammount
+
+**8)until loops**
+until [ con ]
+do
+	s1
+	s2
+	s3
+	...
+	...
+done
+
+
+until the con becomes true the statement inside do and done executes
+
+
+**8)for loops**
+
+
+
+for varible in 1 2 3 4 5 ... N
+do
+	s1
+	s2
+	s3...
+	..
+
+done
+
+
+for varible in {1..N} #iteare from 1 to N
+do
+	s1
+	s2
+	s3...
+	..
+
+done
+
+
+for ((i=0;i<=10;i++))
+do 
+	s1
+	s2
+	s3..
+	..
+	sn
+done
+
+
+
+
+**8)for loops to execute commands**
+**9)for loops to execute commands**
+**10)for loops to execute commands**
+
+
+**11)functions**
+
+function notations
+
+function name(){
+	commands
+}
+
+name(){
+	command
+}
+
+both works fine
+to call the function just write the names
+to call the name function do name
+
+the sequcne in which the function will be called, is same in which they are written
+
+to pass argumemt use the default variable inside the function
+$1 is the farg $2 is sencond are .... $n is the nth arg
+during calling pass the args
+
+name nam1 nam2 nam3
+
+now inside func $1=nam1 $2=nam2 $3=nam3
+
+
+**11)local variable**
+whatever varible you declare by default they are global.
+
+that means whatever variable you declare inside a function can be accessed from outside
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
