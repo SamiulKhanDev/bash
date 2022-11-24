@@ -514,11 +514,84 @@ done
 
 
 **8)for loops to execute commands**
-**9)for loops to execute commands**
-**10)for loops to execute commands**
+ 
+ for command in command list
+ do
+ 	execute the command
+ done
+
+ ex
+
+ for command in ls pwd date
+ do
+ 	$command
+ done
+
+ one by one ls pwd and date command will be executed
+
+
+
+
+**9)select loops**
+select contruts helps use to generate menus easily,
+whenever you required to generate some menus you can use select loop
+
+select varname in list
+do
+	s1
+	s2
+	s3
+	s4
+	..
+	..
+	..
+done
+
+now you can selete them by giving the number which you want to select
+
+
+
+
+**10)Break and continue and return**
+when ever we want to break out of the loop pre maturelly, we can use "break" statement
+
+for((j=0;j<10;j++))
+do
+for ((i=0;i<=10;i++))
+do
+if [ $i -le 5 ]
+then 
+echo $i
+else
+	break
+fi
+done
+done
+
+like other languages , break only breaks out from the parent loop where it is called, not from the outer loop or the surrounded loop if there is any
+
+whenever you want to continue the loop without execution the remaning code you can use the continue statement. 
+
+for ((i=0;i<=10;i++))
+do
+if [ $i -eq 5]
+then 
+continue
+fi
+echo $i
+done
+
+so when the value of i=5 
+it will skip the exccution of line below that, and will start from the beging of the loop
+
+
+to some value from a function you can use the return keyword
+
 
 
 **11)functions**
+
+like other lan,bash also supports functions, but they are somewhat limited in implementation
 
 function notations
 
@@ -532,17 +605,17 @@ name(){
 
 both works fine
 to call the function just write the names
-to call the name function do name
+to call the name function do "name"
 
 the sequcne in which the function will be called, is same in which they are written
 
 to pass argumemt use the default variable inside the function
-$1 is the farg $2 is sencond are .... $n is the nth arg
+$1 is the first arg $2 is sencond are .... $n is the nth arg
 during calling pass the args
 
 name nam1 nam2 nam3
 
-now inside func $1=nam1 $2=nam2 $3=nam3
+now inside function "name" $1=nam1 $2=nam2 $3=nam3
 
 
 **11)local variable**
@@ -551,9 +624,19 @@ whatever varible you declare by default they are global.
 that means whatever variable you declare inside a function can be accessed from outside
 
 
+function print(){
+	name=samiul
+	echo "$name"
+}
+print
+echo "$name"
 
+so "name" can be accessed from inside and outside the function
 
-
+we can also cange the value of "name" varible befome line 631
+to make a varible local to a function(that is ,outside of the function the variable won't exits)
+we can use the "local" keyword
+Now "local" keyword only can be used in function(that is you can block the scope of a varible that is declared in function in the function,but all the variables that are declared outside the fucntion are still accessble from the function)
 
 
 

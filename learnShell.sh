@@ -268,6 +268,67 @@ echo "hello word" #this is also a comment
 	# fi
 # }
 
+# for c in ls
+# do
+# 	$c
+
+# done
+
+# for item in *
+# do 
+# 	if [ -f "$item" ]
+# 	then
+# 		echo "$item"
+# 	fi
+# done
+
+# select name in sam john doe jeemy
+# do
+# 	echo $name
+# done
+
+# for ((i=0;i<=10;i++))
+# do
+# if [ $i -le 5 ]
+# then 
+# echo $i
+# else
+# 	break
+# fi
+# done
+
+# for((j=0;j<10;j++))
+# do
+# for ((i=0;i<=10;i++))
+# do
+# if [ $i -le 5 ]
+# then 
+# echo $i
+# else
+# 	break
+# fi
+# done
+# done
+
+# for((i=0;i<=10;i++))
+# do
+# 	if [ $i -eq 5 ]
+# 		then 
+# 			continue
+# 		fi
+# 	echo $i
+# done
+
+
+
+# function print(){
+# 	echo $sam
+# 	local name=samiul
+# 	echo "$name"
+# }
+# print
+
+# echo "$name"
 
 
 
