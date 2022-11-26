@@ -585,7 +585,8 @@ so when the value of i=5
 it will skip the exccution of line below that, and will start from the beging of the loop
 
 
-to some value from a function you can use the return keyword
+Although Bash has a return statement, the only thing you can specify with it is the function's own exit status (a value between 0 and 255, 0 meaning "success"). So return is not what you want.You might want to convert your return statement to an echo statement - that way your function output could be captured using $() braces, which seems to be exactly what you want.
+See the fibo function for referrence
 
 
 
@@ -641,12 +642,30 @@ Now "local" keyword only can be used in function(that is you can block the scope
 
 
 
+To know about '[[', '[', '((','(' and when what you should use do read the link, as well the links provided earlier
+https://unix.stackexchange.com/questions/306111/what-is-the-difference-between-the-bash-operators-vs-vs-vs
 
 
+**12)read only commands**
+to make variables and functions read only we can use the read only command
+making a varible readonly makes it const, that is you won't be able to re-assign a new value to the varible
+
+name=samiul
+readonly name #to make a varible readonly we use the readonly command
+name=kkkkk #shell will not allow it to happen
 
 
+do make function readonly
 
+function echoHello(){
+	echo "hello word"
+}
 
+readonly -f echoHello #"f" flag is used to make functions readonly
+you won't be able to redeclare the function
+
+writing just "readonly" will print all the builtin varibles that are readonly
+to know all the readonly function use the 'f' flag "readonly -f"
 
 
 

@@ -332,6 +332,67 @@ echo "hello word" #this is also a comment
 
 
 
+# var=samiul
+# readonly var
+# var=kkkk #var: readonly varible error
+
+# echo "$var"
+
+# function echoHello()
+# {
+# 	echo "hello word"
+# }
+
+# readonly -f echoHello
+# echoHello
+
+# function echoHello() #for function it won't thorw error but warnings
+# {
+# 	echo "again"
+# }
+
+# echoHello
+
+# readonly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
